@@ -1,0 +1,22 @@
+Module 10: PCB Layout Rules and Test Plan
+
+Purpose:
+- Provide PCB layout guidance, signal integrity rules, and a step-by-step test and validation plan.
+
+Layout rules:
+- Keep RF/microwave traces 50Ω controlled impedance; avoid splines, use smooth curves.
+- Place ADC and driver in close proximity; route differential pairs with matched length (<50 mils difference).
+- Keep digital switching ground and power planes separate from analog planes; single star point near power inputs.
+- Decoupling: local caps near every IC, use multiple values (1uF, 0.1uF, 0.01uF) and place as close as possible.
+- Use ground stitching vias around RF paths and guard traces where necessary.
+
+Test plan:
+- Stage 1: Power rails verification (no-load and with load), check voltages and ripple.
+- Stage 2: Clock verification: measure clock amplitude, symmetry, phase noise; check distribution.
+- Stage 3: RF front-end S parameters (S11/S21) with VNA.
+- Stage 4: ADC/FPGA capture: inject known test patterns, verify data capture correctness.
+- Stage 5: Trigger validation: test pre/post capture and IRQ handling.
+- Stage 6: Full system: capture real signals, compare against reference oscilloscope, measure ENOB/SNR.
+
+Deliverables after build:
+- VNA plots, FFT results, jitter measurement records, annotated PCB layout screenshots.

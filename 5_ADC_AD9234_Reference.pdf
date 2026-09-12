@@ -1,0 +1,24 @@
+Module 5: ADC (AD9234 reference wiring)
+
+Purpose:
+- High-speed, 12-bit, 250 MSPS ADC captures differential analog to digital. Provide reference, clock, decoupling and interface to FPGA.
+
+Schematic description (reference):
+- ADC: AD9234
+  - VIN+ -> ADC_IN_P, VIN- -> ADC_IN_N
+  - VREF -> REF_2.5V (use REF5025 or ADR4525 low-noise reference)
+  - AVDD, DVDD per datasheet via LDOs and ferrite beads
+  - CLOCK_IN: LVDS/LVPECL clock from Si5341 low-jitter source
+  - DATA_BUS: 12-bit parallel LVDS/CMOS outputs to FPGA; route with matched pairs
+  - SYNC/FRAME pins per device: connect to FPGA lines for alignment
+
+Power and decouple:
+- Use recommended decoupling pattern: 0.1uF + 10nF + 1uF at each supply pin; place caps close to pins.
+
+Clocking:
+- Low jitter oscillator Si5341 or Si570 generate ADC clock and optionally a phase-aligned clock to FPGA.
+
+Verification:
+- With test inputs, measure SNR/ENOB and spectrum using FFT; validate sample clock jitter impact.
+
+Note: Consult the AD9234 datasheet for exact recommended input network and layout guidance.

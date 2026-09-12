@@ -1,0 +1,20 @@
+Module 8: STM32F407 + TFT UI (Display & Control)
+
+Purpose:
+- Provide user interface, controls, rendering of waveform, measurements (frequency, period, peak, average), and data storage/communication.
+
+Schematic description:
+- MCU: STM32F407VET6
+- TFT: ILI9341 or ILI9486 320x240 display using 16-bit parallel interface connected to FSMC
+  - FSMC D0..D15 -> TFT data pins
+  - Control signals: TFT_CS, TFT_RS, TFT_WR, TFT_RD, RESET
+- Buttons/Encoders: GPIOs with external pullups; rotary encoder for timebase/volts/div
+- SD Card: SDIO interface for waveform storage
+- USB: USB FS for PC comms
+
+Software architecture:
+- ISR: DMA half/full callbacks, EXTI for buttons
+- Tasks: Capture control, Render task (double-buffer), Measurement task, Storage/Comm task
+
+Verification:
+- Test UI responsiveness while continuous reading frames; ensure double-buffer prevents tearing.

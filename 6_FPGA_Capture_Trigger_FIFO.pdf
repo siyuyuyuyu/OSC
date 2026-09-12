@@ -1,0 +1,19 @@
+Module 6: FPGA Capture, Trigger, FIFO (Architectural View)
+
+Purpose:
+- Capture high-rate ADC data, implement trigger logic, store pre/post samples, perform decimation/min-max and supply frames for STM32.
+
+Functional blocks:
+- ADC Interface: LVDS/CMOS receivers for DATA[11:0], capture clock, optional DDR capture.
+- Deserializer / Align: Align ADC words, deskew channels and calibrate sample phases.
+- Circular buffer: BRAM + external SRAM for deep capture; write pointer moves continuously.
+- Trigger FSM: Edge/level/pulse-width trigger detectors; on trigger, freeze capture window and record pre/post samples.
+- Decimation/Pixelization: Compute min/max per pixel window to preserve peaks; downsample for TFT width (e.g., 320 pixels)
+- Host Interface: Memory-mapped region or FIFO exposed to STM32 via FSMC; IRQ when capture ready.
+
+Component recommendations:
+- FPGA: Xilinx Spartan-6 XC6SLX9 or Artix-7 for higher IO and BRAM.
+- SRAM: IS61LV51216 or larger if deep capture needed.
+
+Verification:
+- Use test patterns (PRBS) into ADC and verify capture correctness, measure trigger latency and pre/post capture handling.

@@ -1,0 +1,16 @@
+Module 4: Anti-aliasing Filter and ADC Input Network
+
+Purpose:
+- Limit bandwidth to prevent aliasing; match ADC input requirements and provide bias/CM control.
+
+Schematic description:
+- Differential LC or active 4th-order low-pass/bandpass filter between driver outputs and ADC pins.
+- Example passive approach: series inductors Ls per leg (10-30 nH) and shunt caps Cs to ground (2-5 pF) tuned for ~100-140 MHz bandpass; simulate in ADS.
+- Include series damping resistors Rs (2-10Ω) at ADC inputs for stability.
+- Provide Vcm bias (VREF/2) to ADC inputs via large resistors (10k-49.9k) and decouple with 10nF to ground.
+
+Components:
+- Precision inductors (surface mount, RF type), high SRF caps, resistors 0402 or 0201 for low parasitics.
+
+Verification:
+- Use VNA to verify frequency response; tune L/C values to achieve desired passband and ripple.

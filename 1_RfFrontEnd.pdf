@@ -1,0 +1,24 @@
+Module 1: RF Front End (RF_IN to PREAMP)
+
+Purpose:
+- Receive external RF input (SMA/BNC), maintain 50Ω transmission, provide fixed attenuation option, DC-block for AC coupling, and transient protection.
+
+Schematic description (to import into CAD manually):
+- J1 SMA (RF_IN_RAW) center -> PAD_20dB (Mini-Circuits PAD-20) input -> PAD_OUT -> C_DC_BLOCK (1nF RF-grade, series) -> NET RF_AFTER_DC
+- Option: For DC mode, solder jumper JP_DC_SHORT to bypass C_DC_BLOCK (NET RF_AFTER_DC = RF_IN_ATT direct)
+- TVS: D1 low-capacitance TVS from NET RF_AFTER_DC to GND (choose low C ~0.5pF-5pF), series Rlimit=2Ω placed upstream if needed for surge dissipation.
+- RF_OUT: NET RF_PREAMP_IN (50Ω) routed with controlled-impedance microstrip to next stage.
+
+Components (suggested):
+- SMA connector J1, 50Ω
+- Attenuator: Mini-Circuits PAD-20 (20dB) or pad network (R values per design)
+- DC block: Murata RF MLCC 1nF, NP0/COG, high SRF
+- TVS: Low-capacitance TVS (e.g., SMBJ or vendor low-C family)
+- Jumpers: JP_DC_SHORT for AC/DC selection
+
+Layout notes:
+- Keep SMA->pad->DC-block short; maintain 50Ω trace.
+- Ground plane under microstrip, via stitching every quarter wavelength at 100 MHz not critical but keep consistent.
+
+Verification:
+- Use VNA to measure S11 and S21 of this section; expected insertion loss ~ PAD spec, return loss <-12dB

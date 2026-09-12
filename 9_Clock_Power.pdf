@@ -1,0 +1,20 @@
+Module 9: Clocking and Power
+
+Purpose:
+- Provide low jitter clocks for ADC and FPGA and stable power rails for analog and digital sections.
+
+Clock tree:
+- Primary: Si5341 or Si570 low jitter oscillator configured to output ADC_CLK (250 MHz LVDS) and FPGA reference clocks (125/250 MHz as needed).
+- Backup: 25 MHz crystal + PLL if cheaper option selected; ensure jitter within ADC spec.
+
+Power rails (examples):
+- AVDD (ADC analog): 3.3V LDO (low noise) with ferrite bead separation
+- VREF: 2.5V external precision reference (REF5025/ADR4525) buffered as required
+- FPGA core: 1.0V/1.2V switching regulator + LDO post regulation
+- Digital I/O: 1.8V / 3.3V rails via LDOs; decoupling 0.1uF + 10nF + 1uF per pin group
+
+Protection and sequencing:
+- Provide power-on sequencing if ADC/FPGA require specific order; use supervisor ICs for reset generation.
+
+Verification:
+- Measure clock jitter with spectrum analyzer; verify rail noise with scope and check ADC performance vs jitter.

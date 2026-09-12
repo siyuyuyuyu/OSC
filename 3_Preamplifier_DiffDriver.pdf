@@ -1,0 +1,21 @@
+Module 3: Preamplifier and Differential Driver
+
+Purpose:
+- Adjust signal amplitude to ADC full scale; provide single-ended to differential conversion and low output impedance to drive ADC input.
+
+Schematic description:
+- Input NET RF_ATT_OUT -> AC coupling cap (if required) -> matched input network -> Driver IC input
+- Driver: AD8138 configured as differential driver. Gain set by Rg per datasheet: G = 1 + (49.9k / Rg) when configured appropriately (consult datasheet). For unity gain use recommended resistor values.
+- Output: ADC_IN_P and ADC_IN_N differential pair (100Ω differential impedance)
+
+Components (suggested):
+- Differential driver: AD8138 (or THS4509 for higher speed)
+- Input matching: 50Ω series resistor or LC matching network as required
+- DC bias: Vcm rail from REF/2 via resistor divider and buffer, or follow ADC recommended VCM
+
+Layout notes:
+- Short matched differential traces to ADC; place bypass caps close to device pins.
+- Minimize series inductance; keep ground plane continuous.
+
+Verification:
+- Inject known input sine; measure differential output amplitude and linearity; ensure driver can swing to ADC input range without clipping.

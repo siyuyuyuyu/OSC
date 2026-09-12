@@ -1,0 +1,25 @@
+Module 2: RF Switching / Routing (AC/DC switch)
+
+Purpose:
+- Provide AC/DC coupling selection and routing between measurement paths while preserving 50Ω and providing good isolation at 100 MHz.
+
+Schematic description:
+- Use RF SPDT or SPST switches in 50Ω env. Two options:
+  - Slow, high-performance: Mechanical RF relay (FTR-B3GA4.5Z-B10) in series with 50Ω traces. Relay coil controlled by MCU via driver transistor (see power section).
+  - Fast, compact: GaAs RF switch (pSemi PE4259 or ADI HMC series) with TTL control signals.
+
+Connections:
+- RF_PREAMP_IN -> RFC_SWITCH_IN
+- RFC_SWITCH outputs -> PATH_A (Direct) and PATH_B (via DC-block or alternate front-end)
+- Each path must be 50Ω matched; place small matching elements if needed (1-3pF, <5Ω resistors) for tuning.
+
+Components:
+- RF switch: PE4259 or similar (or FTR-B3GA4.5Z for relay)
+- Control: MCUs GPIO -> level-shifter/driver -> switch control pins
+
+Notes:
+- If using mechanical relay, allow 10-20ms settling and debounce handling in firmware.
+- If using GaAs switch, check insertion loss (<1dB) and isolation (>30dB preferred).
+
+Verification:
+- Measure ON insertion loss and OFF isolation at 100 MHz using VNA.

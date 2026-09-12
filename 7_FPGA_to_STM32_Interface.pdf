@@ -1,0 +1,19 @@
+Module 7: FPGA to STM32 Interface (FSMC memory-mapped)
+
+Purpose:
+- Provide a high-throughput interface for STM32 to read captured frames and control FPGA registers.
+
+Schematic/Interface description:
+- Expose FPGA logic or external SRAM as a memory region on FSMC bank 1 (16-bit data bus).
+- Signals:
+  - DATA[15:0] <-> FSMC D0..D15
+  - ADDR[0..n] <-> FSMC A0..An (mapped to FPGA register map)
+  - CS_N, RD_N, WR_N <-> FSMC control signals
+  - IRQ_N from FPGA -> STM32 EXTI line
+- Registers: CONTROL (arm, stop), STATUS (ready, overflow), PRE_SAMPLES, POST_SAMPLES, DECIMATE_FACTOR
+
+Software:
+- STM32 uses DMA to burst-read frame buffer from FSMC into RAM; double-buffering to allow UI update while next frame captured.
+
+Verification:
+- Validate read/write transactions, confirm IRQ triggers on capture complete, measure read throughput via DMA.
